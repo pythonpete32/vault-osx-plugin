@@ -8,7 +8,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/pythonpete32/erc4626-osx-plugin/actions"><img src="https://github.com/pythonpete32/erc4626-osx-plugin/actions/workflows/ci.yml/badge.svg" alt="Github Actions"></a>
+  <a href="https://github.com/pythonpete32/erc4626-osx-plugin/actions"><img src="https://github.com/pythonpete32/erc4626-osx-plugin/actions/workflows/test.yml/badge.svg" alt="Github Actions"></a>
   <a href="https://getfoundry.sh/"><img src="https://img.shields.io/badge/Built%20with-Foundry-FFDB1C.svg" alt="Foundry"></a>
   <a href="https://opensource.org/license/agpl-v3/"><img src="https://img.shields.io/badge/License-AGPL-blue.svg" alt="License: AGPL-3-0"></a>
   <a href="https://use-aragon.daobox.app"><img src="https://img.shields.io/badge/Docs-DAOBox-blue.svg" alt="Docs"></a>
