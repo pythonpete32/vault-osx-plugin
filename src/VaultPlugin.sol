@@ -15,7 +15,6 @@ import {
  * @author pythonpete32
  * @notice This contract is an ERC4626 vault that uses an Aragon DAO for storage and management of the underlying asset.
  * It introduces a transfer toggle feature, allowing the DAO to enable or disable transfers of the token.
- * 
  *
  * @dev The contract inherits from PluginUUPSUpgradeable and ERC4626Upgradeable. It introduces a new state variable
  * `transfersEnabled` which can be toggled to enable or disable transfers of the token. This is in addition to the
