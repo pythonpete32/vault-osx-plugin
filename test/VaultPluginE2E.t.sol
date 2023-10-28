@@ -11,25 +11,28 @@ import { DaoUnauthorized } from "@aragon/osx/core/utils/auth.sol";
 import { PluginRepo } from "@aragon/osx/framework/plugin/repo/PluginRepo.sol";
 
 import { AragonE2E } from "./base/AragonE2E.sol";
-import { SimpleStorageSetup } from "../src/SimpleStorageSetup.sol";
-import { SimpleStorage } from "../src/SimpleStorage.sol";
+import { VaultPluginSetup } from "../src/VaultPluginSetup.sol";
+import { VaultPlugin } from "../src/VaultPlugin.sol";
+import { TestToken } from "./mocks/TestToken.sol";
 
-contract SimpleStorageE2E is AragonE2E {
+contract VaultPluginE2E is AragonE2E {
     DAO internal dao;
-    SimpleStorage internal plugin;
+    VaultPlugin internal plugin;
     PluginRepo internal repo;
-    SimpleStorageSetup internal setup;
-    uint256 internal constant NUMBER = 420;
+    VaultPluginSetup internal setup;
+    address internal usdc;
     address internal unauthorised = account("unauthorised");
 
     function setUp() public virtual override {
         super.setUp();
-        setup = new SimpleStorageSetup();
+        setup = new VaultPluginSetup();
+        usdc = address(new TestToken("USDC", "USDC"));
+
         address _plugin;
 
-        (dao, repo, _plugin) = deployRepoAndDao("simplestorage4202934800", address(setup), abi.encode(NUMBER));
+        (dao, repo, _plugin) = deployRepoAndDao("erc4620", address(setup), abi.encode(usdc));
 
-        plugin = SimpleStorage(_plugin);
+        plugin = VaultPlugin(_plugin);
     }
 
     function test_e2e() public {
@@ -42,17 +45,21 @@ contract SimpleStorageE2E is AragonE2E {
         assertEq(keccak256(bytes(dao.daoURI())), keccak256(bytes("https://mockDaoURL.com")));
 
         // test plugin init correctly
-        assertEq(plugin.number(), 420);
+        assertEq(plugin.asset(), usdc);
 
-        // test dao store number
-        vm.prank(address(dao));
-        plugin.storeNumber(69);
+        // test deposit
+        TestToken(usdc).mint(address(this), 10 ether);
+        TestToken(usdc).approve(address(plugin), 10 ether);
+        plugin.deposit(10 ether, address(this));
+        assertEq(plugin.totalAssets(), 10 ether);
 
         // test unauthorised cannot store number
         vm.prank(unauthorised);
         vm.expectRevert(
-            abi.encodeWithSelector(DaoUnauthorized.selector, dao, plugin, unauthorised, keccak256("STORE_PERMISSION"))
+            abi.encodeWithSelector(
+                DaoUnauthorized.selector, dao, plugin, unauthorised, keccak256("TOGGLE_TRANSFER_PERMISSION")
+            )
         );
-        plugin.storeNumber(69);
+        plugin.toggleTransfers();
     }
 }

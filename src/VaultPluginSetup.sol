@@ -4,14 +4,21 @@ pragma solidity ^0.8.17;
 
 import { PermissionLib } from "@aragon/osx/core/permission/PermissionLib.sol";
 import { PluginSetup, IPluginSetup } from "@aragon/osx/framework/plugin/setup/PluginSetup.sol";
-import { SimpleStorage } from "./SimpleStorage.sol";
+import { VaultPlugin } from "./VaultPlugin.sol";
+import {
+    ERC4626Upgradeable,
+    ERC20Upgradeable,
+    IERC20MetadataUpgradeable,
+    SafeERC20Upgradeable,
+    IERC20Upgradeable
+} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC4626Upgradeable.sol";
 
-/// @title SimpleStorageSetup build 1
-contract SimpleStorageSetup is PluginSetup {
+/// @title VaultPluginSetup build 1
+contract VaultPluginSetup is PluginSetup {
     address private immutable IMPLEMEMTATION;
 
     constructor() {
-        IMPLEMEMTATION = address(new SimpleStorage());
+        IMPLEMEMTATION = address(new VaultPlugin());
     }
 
     /// @inheritdoc IPluginSetup
@@ -22,19 +29,27 @@ contract SimpleStorageSetup is PluginSetup {
         external
         returns (address plugin, PreparedSetupData memory preparedSetupData)
     {
-        uint256 number = abi.decode(_data, (uint256));
+        address baseAsset = abi.decode(_data, (address));
 
         plugin =
-            createERC1967Proxy(IMPLEMEMTATION, abi.encodeWithSelector(SimpleStorage.initialize.selector, _dao, number));
+            createERC1967Proxy(IMPLEMEMTATION, abi.encodeWithSelector(VaultPlugin.initialize.selector, _dao, baseAsset));
 
-        PermissionLib.MultiTargetPermission[] memory permissions = new PermissionLib.MultiTargetPermission[](1);
+        PermissionLib.MultiTargetPermission[] memory permissions = new PermissionLib.MultiTargetPermission[](2);
 
         permissions[0] = PermissionLib.MultiTargetPermission({
             operation: PermissionLib.Operation.Grant,
             where: plugin,
             who: _dao,
             condition: PermissionLib.NO_CONDITION,
-            permissionId: keccak256("STORE_PERMISSION")
+            permissionId: keccak256("TOGGLE_TRANSFER_PERMISSION")
+        });
+
+        permissions[1] = PermissionLib.MultiTargetPermission({
+            operation: PermissionLib.Operation.Grant,
+            where: _dao,
+            who: plugin,
+            condition: PermissionLib.NO_CONDITION,
+            permissionId: keccak256("EXECUTE_PERMISSION")
         });
 
         preparedSetupData.permissions = permissions;
@@ -57,6 +72,14 @@ contract SimpleStorageSetup is PluginSetup {
             who: _dao,
             condition: PermissionLib.NO_CONDITION,
             permissionId: keccak256("STORE_PERMISSION")
+        });
+
+        permissions[1] = PermissionLib.MultiTargetPermission({
+            operation: PermissionLib.Operation.Revoke,
+            where: _dao,
+            who: _payload.plugin,
+            condition: PermissionLib.NO_CONDITION,
+            permissionId: keccak256("EXECUTE_PERMISSION")
         });
     }
 

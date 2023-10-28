@@ -1,12 +1,13 @@
 {
-  "name": "@aragon/osx-plugin-template-foundry",
+  "name": "erc4626-osx-plugin",
   "description": "",
   "version": "1.0.0",
   "author": {
-    "name": "aragon",
-    "url": "https://github.com/Aragon"
+    "name": "pythonete32",
+    "url": "https://github.com/pythonete32"
   },
   "keywords": [
+    "erc4626",
     "blockchain",
     "ethereum",
     "forge",
