@@ -5,13 +5,6 @@ pragma solidity ^0.8.17;
 import { PermissionLib } from "@aragon/osx/core/permission/PermissionLib.sol";
 import { PluginSetup, IPluginSetup } from "@aragon/osx/framework/plugin/setup/PluginSetup.sol";
 import { VaultPlugin } from "./VaultPlugin.sol";
-import {
-    ERC4626Upgradeable,
-    ERC20Upgradeable,
-    IERC20MetadataUpgradeable,
-    SafeERC20Upgradeable,
-    IERC20Upgradeable
-} from "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC4626Upgradeable.sol";
 
 /// @title VaultPluginSetup build 1
 contract VaultPluginSetup is PluginSetup {
@@ -29,10 +22,10 @@ contract VaultPluginSetup is PluginSetup {
         external
         returns (address plugin, PreparedSetupData memory preparedSetupData)
     {
-        address baseAsset = abi.decode(_data, (address));
+        address asset = abi.decode(_data, (address));
 
         plugin =
-            createERC1967Proxy(IMPLEMEMTATION, abi.encodeWithSelector(VaultPlugin.initialize.selector, _dao, baseAsset));
+            createERC1967Proxy(IMPLEMEMTATION, abi.encodeWithSelector(VaultPlugin.initialize.selector, _dao, asset));
 
         PermissionLib.MultiTargetPermission[] memory permissions = new PermissionLib.MultiTargetPermission[](2);
 

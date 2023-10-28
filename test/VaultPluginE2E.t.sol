@@ -1,12 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 pragma solidity 0.8.21;
 
-import { console2 } from "forge-std/console2.sol";
-
-import { Clones } from "@openzeppelin/contracts/proxy/Clones.sol";
 import { DAO } from "@aragon/osx/core/dao/DAO.sol";
-import { DAOMock } from "@aragon/osx/test/dao/DAOMock.sol";
-import { IPluginSetup } from "@aragon/osx/framework/plugin/setup/PluginSetup.sol";
 import { DaoUnauthorized } from "@aragon/osx/core/utils/auth.sol";
 import { PluginRepo } from "@aragon/osx/framework/plugin/repo/PluginRepo.sol";
 
