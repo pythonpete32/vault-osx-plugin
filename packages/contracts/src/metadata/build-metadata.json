@@ -1,0 +1,27 @@
+{
+  "ui": {},
+  "change": "NA",
+  "pluginSetup": {
+    "prepareInstallation": {
+      "description": "Install",
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "asset",
+          "type": "address",
+          "description": "Base Asser"
+        }
+      ]
+    },
+    "prepareUninstallation": {
+      "description": "No input is required for the uninstallation.",
+      "inputs": []
+    },
+    "prepareUpdate": {
+      "1": {
+        "description": "No input is required for the update.",
+        "inputs": []
+      }
+    }
+  }
+}
