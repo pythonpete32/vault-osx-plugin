@@ -1,23 +1,22 @@
 import { WagmiConfig, createConfig } from "wagmi";
-import {
-  ConnectKitProvider,
-  ConnectKitButton,
-  getDefaultConfig,
-} from "connectkit";
+import { ConnectKitProvider, getDefaultConfig } from "connectkit";
+import { goerli } from "wagmi/chains";
+import siteConfig from "@/config/site";
 
 const config = createConfig(
   getDefaultConfig({
+    chains: [goerli],
     // Required API Keys
-    alchemyId: process.env.ALCHEMY_ID, // or infuraId
+    alchemyId: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY,
     walletConnectProjectId: process.env.NEXT_PUBLIC_WC_ID ?? "",
 
     // Required
-    appName: "Your App Name",
+    appName: siteConfig.title,
 
     // Optional
-    appDescription: "Your App Description",
-    appUrl: "https://family.co", // your app's url
-    appIcon: "https://family.co/logo.png", // your app's icon, no bigger than 1024x1024px (max. 1MB)
+    appDescription: siteConfig.description,
+    appUrl: siteConfig.url,
+    appIcon: "https://family.co/logo.png",
   })
 );
 

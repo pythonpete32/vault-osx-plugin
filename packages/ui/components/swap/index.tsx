@@ -1,38 +1,19 @@
 "use client";
 import { ReloadIcon } from "@radix-ui/react-icons";
-
-import { MainCard } from "../../../components/shared/_components/main-card";
-
+import { MainCard } from "../shared/_components/main-card";
 import { HiArrowsRightLeft } from "react-icons/hi2";
-import { parseTokenAmount } from "@/lib/utils";
-
-import { useForm, useWatch } from "react-hook-form";
-
-import { useAccount, useBalance } from "wagmi";
-import {
-  useApproveDepositToken,
-  useApprovedAmount,
-  useDepositToken,
-  useExchange,
-  useVaultToken,
-} from "@/hooks/vault-hooks";
-import { useState } from "react";
-import { formatUnits } from "viem";
+import { useAccount } from "wagmi";
 import { Form } from "@/components/ui/form";
-import {
-  PREFERRED_NETWORK,
-  PREFERRED_NETWORK_METADATA,
-} from "@/lib/constants/chains";
-import { DAI, Loading, SECOIN, THEDAO } from "@/components/icons";
-import TokenAmount from "../../../components/shared/tokens/token-amount";
-import { ErrorText } from "../../../components/shared/_components/error-wrapper";
+import { DAI, Loading, THEDAO } from "@/components/shared/icons";
+import TokenAmount from "../shared/tokens/token-amount";
+import { ErrorText } from "../shared/_components/error-wrapper";
 import {
   ConditionalButton,
   ConnectWalletWarning,
   InsufficientGasWarning,
   Warning,
 } from "@/components/shared/buttons/conditional-button";
-import { toast } from "@/hooks/useToast";
+
 import {
   Accordion,
   AccordionContent,
@@ -40,10 +21,10 @@ import {
   AccordionTrigger,
 } from "@/components/shared/accordion";
 import CategoryList from "@/components/shared/catagory-list";
-import { ToToken } from "./ToToken";
+import { ToToken } from "./to-token";
 import { FromToken } from "./from-token";
 import { SwapButton } from "./SwapButton";
-import { useTokenContext } from "@/components/providers/token-context";
+import { useTokenContext } from "@/providers/token-context";
 
 export interface IFormInputs {
   fromToken: string;
@@ -103,22 +84,6 @@ export default function Swap() {
         >
           <Form {...form}>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-1">
-              {PREFERRED_NETWORK === "mumbai" && (
-                <p className="text-destructive">
-                  You are on the {PREFERRED_NETWORK_METADATA.name} testnet,
-                  where DAI does not exist. Use{" "}
-                  <a
-                    className="underline"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                    href="https://app.uniswap.org/#/swap"
-                  >
-                    WMATIC
-                  </a>{" "}
-                  instead.
-                </p>
-              )}
-
               <FromToken
                 form={form}
                 register={register}

@@ -1,12 +1,5 @@
-/**
- * Used to access the active toasts and create new ones.
- *
- * adapted from https://ui.shadcn.com/docs/primitives/toast
- * changes were made to make it more similar to the react-hot-toast library
- */
-
 import * as React from "react";
-import { PREFERRED_NETWORK_METADATA } from "@/lib/constants/chains";
+import CHAIN from "@/lib/constants/chain";
 import { HiArrowTopRightOnSquare } from "react-icons/hi2";
 import { ToastActionElement, ToastProps } from "@/components/shared/toast";
 
@@ -294,7 +287,7 @@ toast.contractTransaction = async (
 
   try {
     // Get block explorer url for the currently preferred network
-    const explorerURL = PREFERRED_NETWORK_METADATA.explorer;
+    const explorerURL = CHAIN.explorer;
     const transaction = await promise();
 
     // Show link to transaction on block explorer

@@ -20,7 +20,7 @@ import * as ToastPrimitives from "@radix-ui/react-toast";
 import { VariantProps, cva } from "class-variance-authority";
 import { HiCheck, HiXMark } from "react-icons/hi2";
 import { cn } from "@/lib/utils";
-import { Loading } from "../icons";
+import { Loading } from "./icons";
 import { buttonVariants } from "./buttons/button-base";
 
 const ToastProvider = ToastPrimitives.Provider;

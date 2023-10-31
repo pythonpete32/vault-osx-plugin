@@ -3,7 +3,7 @@ import { HiOutlineArrowsUpDown } from "react-icons/hi2";
 import { Button } from "@/components/ui/button";
 import { Dispatch, SetStateAction } from "react";
 import { UseFormSetValue } from "react-hook-form";
-import { IFormInputs } from "./swap";
+import { IFormInputs } from ".";
 
 export interface ISwapButton {
   setSwap: Dispatch<SetStateAction<"Mint" | "Burn">>;

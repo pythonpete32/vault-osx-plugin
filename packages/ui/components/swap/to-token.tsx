@@ -1,12 +1,12 @@
 "use client";
 import { IToken } from "@/hooks/vault-hooks";
-import TokenAmount from "../../../components/shared/tokens/token-amount";
-import { Icon } from "./swap";
+import TokenAmount from "../shared/tokens/token-amount";
+import { Icon } from ".";
 
 export interface IToToken {
-  expectedReturn: bigint;
+  expectedReturn: BigInt;
   toToken: IToken;
-  maxTo: bigint;
+  maxTo: BigInt;
 }
 export function ToToken({ expectedReturn, toToken, maxTo }: IToToken) {
   return (

@@ -1,4 +1,3 @@
-import { HookCallbacks } from "async_hooks";
 import { Address } from "viem";
 
 interface IVaultTokenBalance {

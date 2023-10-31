@@ -7,17 +7,17 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { NumberPattern } from "@/lib/constants/patterns";
-import { MaxButton } from "../../../components/shared/buttons/max-button";
-import { Input } from "../../../components/shared/_components/swap-input";
+import { MaxButton } from "../shared/buttons/max-button";
+import { Input } from "../shared/_components/swap-input";
 import { IToken } from "@/hooks/vault-hooks";
 
 import { UseFormReturn, UseFormRegister } from "react-hook-form";
-import { IFormInputs, Icon } from "./swap";
+import { IFormInputs, Icon } from ".";
 
 export interface IFromToken {
   form: UseFormReturn<IFormInputs, any, undefined>;
   register: UseFormRegister<IFormInputs>;
-  maxFrom: bigint;
+  maxFrom: BigInt;
   fromToken: IToken;
   setMaxValue: () => void;
 }
@@ -42,7 +42,7 @@ export function FromToken({
           max: (v) =>
             maxFrom === undefined ||
             BigInt(parseTokenAmount(v, fromToken.decimals)?.toString() ?? 0) <
-              BigInt(maxFrom) ||
+              BigInt(maxFrom.toString()) ||
             "Token amount too high",
         },
       }}
