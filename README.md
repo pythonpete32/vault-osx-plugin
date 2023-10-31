@@ -1,4 +1,4 @@
-<h1 align="center">🏦 ERC4626 OSx Plugin</h1>
+<h1 align="center">🏦 OSx Vault Plugin</h1>
 
 <p align="center">
   <img src="./assets/banner1.png" alt="repo-banner" />
@@ -27,20 +27,50 @@
 
 <br />
 
-## Getting Started
+## Quick Start
 
 ```sh
 $ git clone git@github.com:pythonpete32/erc4626-osx-plugin.git
-$ cd erc4626-osx-plugin
-$ forge install
-$ pnpm install # install Solhint, Prettier, and other Node.js deps
-$ pnpm test
+$ pnpm install
+$ pnpm setup
+$ pnpm dev
 ```
 
-If this is your first time with Foundry, check out the
-[installation](https://github.com/foundry-rs/foundry#installation) instructions.
-
 <br />
+
+```markdown
+.
+├── packages/contracts
+│ ├── src
+│ ├── deploy
+│ ├── test
+│ ├── utils
+│ ├── ...
+│ └── package.json
+│
+├── packages/subgraph
+│ ├── src
+│ ├── scripts
+│ ├── manifest
+│ ├── tests
+│ ├── utils
+│ ├── ...
+│ └── package.json
+│
+├── packages/js-client
+│ ├── src
+│ ├── test
+│ ├── ...
+│ └── package.json
+│
+├── packages/app
+│ ├── src
+│ ├── test
+│ ├── ...
+│ └── package.json
+├── ...
+└── package.json
+```
 
 ## License
 
