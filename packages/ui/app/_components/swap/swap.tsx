@@ -55,90 +55,42 @@ export const Icon = ({ name }: { name: string }) => {
 };
 
 export default function Swap() {
-  // slippage form
-  const { form } = useTokenContext();
+  const { address, isConnected } = useAccount();
+
+  const {
+    form,
+    swap,
+    setSwap,
+    vaultToken,
+    onSubmit,
+    approveToken,
+    depositToken,
+    enoughGas,
+    exchange,
+    fromAmount,
+    fromToken,
+    isApproved,
+    isSwapping,
+    setMaxValue,
+    toToken,
+    maxFrom,
+    maxTo,
+  } = useTokenContext();
+
   const {
     register,
-    control,
     handleSubmit,
     setValue,
     formState: { errors, isValid },
   } = form;
 
-  // TOKEN CONTEXT ===============================================================
-  const { address, isConnected } = useAccount();
-
-  // Tokens
-  const { token: vaultToken } = useVaultToken({ address });
-  const { token: depositToken } = useDepositToken({ address });
-  const { data: nativeBalance } = useBalance({ address: address });
-
-  // Swap States
-  const [isSwapping, setIsSwapping] = useState(false);
-  const [swap, setSwap] = useState<"Mint" | "Burn">("Mint");
-
-  const fromToken = swap === "Mint" ? depositToken : vaultToken;
-  const toToken = swap === "Mint" ? vaultToken : depositToken;
-
-  let maxFrom = swap === "Mint" ? depositToken.balance : vaultToken.balance;
-  let maxTo = swap === "Mint" ? vaultToken.balance : depositToken.balance;
-
-  const fromAmountWatch = useWatch({ control, name: "fromToken" });
-  const fromAmount = parseTokenAmount(fromAmountWatch, fromToken.decimals);
-
-  const setMaxValue = () => {
-    if (maxFrom !== undefined) {
-      setValue("fromToken", formatUnits(maxFrom, fromToken.decimals));
-    }
-  };
-
-  // Exchange States
   const { error, estimatedGas, expectedReturn, isLoading, performExchange } =
-    useExchange({
-      swapKind: swap,
-      amount: fromAmount,
-      enabled: fromAmount !== null || fromAmount !== undefined,
-    });
-
-  const enoughGas =
-    estimatedGas !== null && nativeBalance !== undefined
-      ? nativeBalance.value > estimatedGas
-      : true;
-
-  // Approval Logic
-  const { approvedAmount } = useApprovedAmount({ userAddress: address });
-  // const approvedAmount = 0n;
-
-  const isApproved =
-    swap === "Burn" ||
-    (approvedAmount !== undefined &&
-      fromAmount !== null &&
-      approvedAmount > BigInt(fromAmount.toString() ?? 0)) ||
-    (approvedAmount !== undefined && // In case the input is invalid.
-      fromAmount === null &&
-      approvedAmount > 0);
-
+    exchange;
   const {
-    writeAprovedAsync,
     error: approveError,
-    isLoading: isLoadingApprove,
-  } = useApproveDepositToken({ userAddress: address });
-
-  const onSubmit = () => {
-    setIsSwapping(true);
-
-    performExchange();
-
-    // toast.contractTransaction(() => performExchange?.(), {
-    //   success: "Swap successful",
-    //   error: "Swap failed",
-    //   onError: (e) => console.error(e as any),
-    //   onFinish() {
-    //     setIsSwapping(false);
-    //     setValue("fromToken", "0.0");
-    //   },
-    // });
-  };
+    isLoading: approveLoading,
+    writeAprovedAsync,
+  } = approveToken;
 
   return (
     <main className="px-10 py-14">
@@ -212,12 +164,6 @@ export default function Swap() {
                   ]}
                   type="button"
                   disabled={isApproved}
-                  // onClick={() =>
-                  //   toast.contractTransaction(() => writeAprovedAsync?.(), {
-                  //     success: "Approved!",
-                  //     error: "Approving failed",
-                  //   })
-                  // }
                 >
                   Approve
                 </ConditionalButton>

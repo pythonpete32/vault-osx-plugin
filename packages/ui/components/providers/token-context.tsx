@@ -30,11 +30,15 @@ interface TokenContextProps {
   isSwapping: boolean;
   fromAmount: BigInt | null;
   setMaxValue: () => void;
+  maxFrom: BigInt;
+  maxTo: BigInt;
   exchange: IUseExchangeReturn;
   enoughGas: boolean;
   isApproved: boolean;
   approveToken: UseApproveReturn;
   onSubmit: () => void;
+  swap: "Mint" | "Burn";
+  setSwap: Dispatch<SetStateAction<"Mint" | "Burn">>;
 }
 
 export const TokenContext = createContext<TokenContextProps | undefined>(
@@ -115,6 +119,8 @@ export const TokenProvider: React.FC<PropsWithChildren<{}>> = ({
         depositToken,
         fromToken,
         toToken,
+        maxFrom,
+        maxTo,
         fromAmount,
         isSwapping,
         setMaxValue,
@@ -123,6 +129,8 @@ export const TokenProvider: React.FC<PropsWithChildren<{}>> = ({
         isApproved,
         approveToken,
         onSubmit,
+        swap,
+        setSwap,
       }}
     >
       {children}
