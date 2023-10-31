@@ -68,6 +68,7 @@ export const TokenProvider: React.FC<PropsWithChildren<{}>> = ({
     control: form.control,
     name: "fromToken",
   });
+
   const fromAmount = parseTokenAmount(fromAmountWatch, fromToken.decimals);
   let maxFrom = swap === "Mint" ? depositToken.balance : vaultToken.balance;
   let maxTo = swap === "Mint" ? vaultToken.balance : depositToken.balance;

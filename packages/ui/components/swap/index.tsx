@@ -4,7 +4,7 @@ import { MainCard } from "../shared/_components/main-card";
 import { HiArrowsRightLeft } from "react-icons/hi2";
 import { useAccount } from "wagmi";
 import { Form } from "@/components/ui/form";
-import { DAI, Loading, THEDAO } from "@/components/shared/icons";
+import { BCC, DAI, Loading, THEDAO } from "@/components/shared/icons";
 import TokenAmount from "../shared/tokens/token-amount";
 import { ErrorText } from "../shared/_components/error-wrapper";
 import {
@@ -32,7 +32,7 @@ export interface IFormInputs {
 
 export const Icon = ({ name }: { name: string }) => {
   if (name === "USDC") return <DAI className="h-5 w-5" />;
-  else return <THEDAO className="h-5 w-5 bg-white rounded-3xl " />;
+  else return <BCC className="h-5 w-5 bg-white rounded-3xl " />;
 };
 
 export default function Swap() {

@@ -1,5 +1,5 @@
 import * as React from "react";
-import CHAIN from "@/lib/constants/chain";
+import CHAIN from "@/config/chain";
 import { HiArrowTopRightOnSquare } from "react-icons/hi2";
 import { ToastActionElement, ToastProps } from "@/components/shared/toast";
 

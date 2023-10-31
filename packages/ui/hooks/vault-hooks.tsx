@@ -1,4 +1,6 @@
+import siteConfig from "@/config/site";
 import { Address } from "viem";
+import { useAccount, useBalance, useToken } from "wagmi";
 
 interface IVaultTokenBalance {
   address: Address | undefined;
@@ -13,18 +15,40 @@ export interface IToken {
   balance: bigint;
 }
 
+export interface UseVaultTokenReturn {
+  token: IToken;
+  isLoading: boolean;
+  isError: boolean;
+  error: Error | undefined;
+}
+
 export const useVaultToken = ({
   address,
   watch = true,
-}: IVaultTokenBalance) => {
-  const token: IToken = {
-    address: "0x1234",
-    name: "Vault Token",
-    symbol: "VT",
-    decimals: 18,
-    balance: 69_000_000_000_000_000_000n,
+}: IVaultTokenBalance): UseVaultTokenReturn => {
+  const {
+    data: balance,
+    isLoading: isBalanceLoading,
+    isError: isBalanceError,
+    error: balanceError,
+  } = useBalance({
+    address: address,
+    token: siteConfig.dao.vaultAddress,
+    watch: watch,
+  });
+
+  return {
+    token: {
+      name: "BitConnect",
+      symbol: "BCC",
+      address: siteConfig.dao.vaultAddress,
+      decimals: 18,
+      balance: balance?.value ?? 0n,
+    },
+    isLoading: isBalanceLoading,
+    isError: isBalanceError,
+    error: balanceError ? balanceError : undefined,
   };
-  return { token };
 };
 
 export const useDepositToken = ({
