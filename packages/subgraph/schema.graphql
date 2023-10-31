@@ -1,0 +1,21 @@
+type Dao @entity {
+  id: String!
+  vaults: [Vault!]! @derivedFrom(field: "dao")
+  installations: [Installation!]! @derivedFrom(field: "dao")
+}
+
+type Vault @entity {
+  id: Bytes!
+  dao: Bytes!
+  asset: Bytes!
+}
+
+type Installation @entity {
+  id: String!
+  dao: Dao!
+  sender: Bytes!
+  pluginSetupRepo: String!
+  data: Bytes!
+  plugin: Bytes!
+  preparedSetupId: Bytes!
+}
